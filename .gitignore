@@ -19,3 +19,4 @@
 /service/*/supervise
 /sync
 /working/*
+/.DS_Store

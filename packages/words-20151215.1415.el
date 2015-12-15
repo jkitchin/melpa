@@ -5,7 +5,7 @@
 ;; Author: John Kitchin  <jkitchin@andrew.cmu.edu>
 
 ;; Version: 0.1.0
-;; Package-Version: 20151215.1357
+;; Package-Version: 20151215.1415
 ;; Package-Requires: ((hydra "0"))
 
 ;;; Commentary:
@@ -41,6 +41,9 @@
 
 ;;; Code:
 (require 'hydra)
+(require 'url)
+(require 'xml)
+
 (setq hydra-is-helpful t)
 
 ;;** Dictionary/thesaurus/grammar
@@ -60,6 +63,7 @@
    (format
     "http://www.thesaurus.com/browse/%s"
     (thing-at-point 'word))))
+
 
 (defun words-atd ()
   "Send paragraph at point to After the deadline for spell and grammar checking."
@@ -193,7 +197,7 @@ Suggestions: %s
 
 
 (defun words-arxiv ()
-  "Search region or word at point in arxiv.org"
+  "Search region or word at point in arxiv.org."
   (interactive)
   (browse-url
    (format
@@ -206,7 +210,7 @@ Suggestions: %s
 
 
 (defun words-semantic-scholar ()
-  "Search region or word at point in www.semanticscholar.org"
+  "Search region or word at point in www.semanticscholar.org."
   (interactive)
   (browse-url
    (format
@@ -264,7 +268,7 @@ Suggestions: %s
   "Mac voice to use for speaking.")
 
 (defun words-speak (&optional text)
-  "Speak word at point or region. Mac only."
+  "Speak word at point or region or TEXT.  Mac only."
   (interactive)
   (unless text
     (setq text (if (use-region-p)
@@ -282,12 +286,12 @@ Suggestions: %s
 
 (defvar words-languages
   '()
-  "List of cons cells (language . code)")
+  "List of cons cells (language . code).")
 
 (defvar words-speakers
   '(("German" . "Anna")
     ("Chinese" . "Ting-Ting"))
-  "Speakers for different languages")
+  "Speakers for different languages.")
 
 (setq words-languages  '(("German" . "de")
 			 ("Italian" . "it")
@@ -324,9 +328,10 @@ Assumes selected code is in English."
     (message "Translation: %s"
 	     (cdr (assoc 'translatedText (cdr (assoc 'responseData json)))))))
 
+
 (defun words-mdfind ()
   "Search for file names matching word or selection at point using mdfind.
-Opens an org-buffer with links to results."
+Opens an org-buffer with links to results.  Mac only."
   (interactive)
   (let ((query (if (use-region-p)
 		   (buffer-substring
@@ -448,9 +453,3 @@ end tell")))
 ;;; End:
 (provide 'words)
 ;;; words.el ends here
-
-
-
-;; # Local Variables:
-;; # lentic-init: lentic-orgel-org-init
-;; # End:
