@@ -49,6 +49,9 @@ emacs --no-site-file --batch -l package-build.el --eval '(package-build-dump-arc
 Now, test it with
 
 #+BEGIN_SRC sh
+# delete the sandbox elpa repo so we can fresh install
+rm -fr sandbox
+# configure emacs with our repository.
 emacs -Q -l test-melpa.el
 #+END_SRC
 
@@ -60,3 +63,8 @@ In your init.el file include this:
 (add-to-list package-archives
 	     ("kitchingroup" . "https://raw.githubusercontent.com/jkitchin/melpa/kitchingroup/packages/") t)
 #+END_SRC
+
+Then, you should be able to install packages from the repo.
+* Special notes for me
+
+For org-ref, this gets pulled from the org-ref melpa branch, not the master branch.
