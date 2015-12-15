@@ -3,7 +3,7 @@ PKGDIR  := ./packages
 RCPDIR  := ./recipes
 HTMLDIR := ./html
 WORKDIR := ./working
-WEBROOT := $$HOME/www
+WEBROOT := /Users/jkitchin/blogofile-jkitchin.github.com
 EMACS_COMMAND   ?= emacs
 SLEEP   ?= 0
 SANDBOX := ./sandbox
@@ -21,7 +21,12 @@ EVAL := $(EMACS_COMMAND) --no-site-file --batch -l package-build.el --eval
 
 TIMEOUT := $(shell which timeout && echo "-k 60 600")
 
-all: packages packages/archive-contents json index
+all: packages packages/archive-contents json index sync
+
+push:
+	git add packages
+	git commit -m "Update packages"
+	git push
 
 ## General rules
 html: index
@@ -51,9 +56,9 @@ clean-sandbox:
 	fi
 
 sync:
-	rsync -avz --delete $(PKGDIR)/ $(WEBROOT)/packages
-	rsync -avz --safe-links --delete $(HTMLDIR)/* $(WEBROOT)/
-	chmod -R go+rx $(WEBROOT)/packages/*
+	rsync -avz --delete $(PKGDIR)/ $(WEBROOT)/elpa
+#	rsync -avz --safe-links --delete $(HTMLDIR)/* $(WEBROOT)/
+#	chmod -R go+rx $(WEBROOT)/packages/*
 
 
 clean: clean-working clean-packages clean-json clean-sandbox
