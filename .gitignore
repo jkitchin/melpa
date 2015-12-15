@@ -13,8 +13,6 @@
 /html/download_counts.json
 /html/recipes.json
 /html/updates.rss
-/packages-stable/*
-/packages/*
 /process_log.pid
 /recipes/.dirstamp
 /sandbox

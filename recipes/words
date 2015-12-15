@@ -1,0 +1,4 @@
+(words
+ :fetcher github
+ :repo "jkitchin/jmax"
+ :files ("words.el"))
