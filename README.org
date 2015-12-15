@@ -8,42 +8,51 @@
 
 2. Run these commands to make and push the packages.
 #+BEGIN_SRC sh
-make packages
-make packages/archive-contents
-git add packages
-git commit -am "Package update"
-git push origin kitchingroup
+make all
 #+END_SRC
 
 #+RESULTS:
 #+begin_example
  • Building recipe org-ref ...
 emacs --no-site-file --batch -l package-build.el --eval "(let ((package-build-stable nil) (package-build-write-melpa-badge-images t) (package-build-archive-dir (expand-file-name \"./packages\" package-build--this-dir))) (package-build-archive 'org-ref))"
- ✓ Wrote   8 -rw-r--r--@ 1 jkitchin  staff   291B Dec 15 13:58 ./packages/org-ref-20151215.640.entry
-464 -rw-r--r--@ 1 jkitchin  staff   230K Dec 15 13:58 ./packages/org-ref-20151215.640.tar
-  8 -rw-r--r--@ 1 jkitchin  staff   752B Dec 15 13:58 ./packages/org-ref-badge.svg
-  8 -rw-r--r--@ 1 jkitchin  staff   243B Dec 15 13:58 ./packages/org-ref-readme.txt
+ ✓ Wrote   8 -rw-r--r--@ 1 jkitchin  staff   292B Dec 15 15:26 ./packages/org-ref-20151215.1439.entry
+560 -rw-r--r--@ 1 jkitchin  staff   280K Dec 15 15:26 ./packages/org-ref-20151215.1439.tar
+  8 -rw-r--r--@ 1 jkitchin  staff   750B Dec 15 15:26 ./packages/org-ref-badge.svg
+  8 -rw-r--r--@ 1 jkitchin  staff   243B Dec 15 15:26 ./packages/org-ref-readme.txt
  Sleeping for 0 ...
 sleep 0
 
  • Building recipe words ...
 emacs --no-site-file --batch -l package-build.el --eval "(let ((package-build-stable nil) (package-build-write-melpa-badge-images t) (package-build-archive-dir (expand-file-name \"./packages\" package-build--this-dir))) (package-build-archive 'words))"
- ✓ Wrote 32 -rw-r--r--  1 jkitchin  staff    12K Dec 15 13:56 ./packages/words-20151215.1356.el
- 8 -rw-r--r--  1 jkitchin  staff    72B Dec 15 13:56 ./packages/words-20151215.1356.entry
-32 -rw-r--r--  1 jkitchin  staff    12K Dec 15 13:58 ./packages/words-20151215.1357.el
- 8 -rw-r--r--  1 jkitchin  staff   104B Dec 15 13:58 ./packages/words-20151215.1357.entry
- 8 -rw-r--r--@ 1 jkitchin  staff   750B Dec 15 13:58 ./packages/words-badge.svg
- 8 -rw-r--r--@ 1 jkitchin  staff   765B Dec 15 13:58 ./packages/words-readme.txt
+ ✓ Wrote 32 -rw-r--r--  1 jkitchin  staff    12K Dec 15 15:26 ./packages/words-20151215.1415.el
+ 8 -rw-r--r--@ 1 jkitchin  staff   104B Dec 15 15:26 ./packages/words-20151215.1415.entry
+ 8 -rw-r--r--@ 1 jkitchin  staff   750B Dec 15 15:26 ./packages/words-badge.svg
+ 8 -rw-r--r--@ 1 jkitchin  staff   765B Dec 15 15:26 ./packages/words-readme.txt
  Sleeping for 0 ...
 sleep 0
 
  • Updating packages/archive-contents ...
 emacs --no-site-file --batch -l package-build.el --eval '(package-build-dump-archive-contents)'
-[kitchingroup 9b9682a] Package update
- 6 files changed, 6 insertions(+), 6 deletions(-)
- delete mode 100644 packages/words-20151215.1356.entry
- rename packages/{words-20151215.1356.el => words-20151215.1357.el} (99%)
- create mode 100644 packages/words-20151215.1357.entry
+ • Building html/archive.json ...
+emacs --no-site-file --batch -l package-build.el --eval '(let ((package-build-stable nil) (package-build-archive-dir (expand-file-name "./packages/" package-build--this-dir))) (package-build-archive-alist-as-json "html/archive.json"))'
+ • Building html index ...
+/Applications/Xcode.app/Contents/Developer/usr/bin/make -C ./html
+erb updates.rss.erb > updates.rss.tmp && mv updates.rss.tmp updates.rss
+rsync -avz --delete ./packages/ /Users/jkitchin/blogofile-jkitchin.github.com/elpa
+building file list ... done
+./
+archive-contents
+org-ref-20151215.1439.entry
+org-ref-20151215.1439.tar
+org-ref-badge.svg
+org-ref-readme.txt
+words-20151215.1415.el
+words-20151215.1415.entry
+words-badge.svg
+words-readme.txt
+
+sent 67942 bytes  received 224 bytes  136332.00 bytes/sec
+total size is 302733  speedup is 4.44
 #+end_example
 
 Now, test it with
@@ -55,13 +64,19 @@ rm -fr sandbox
 emacs -Q -l test-melpa.el
 #+END_SRC
 
+If it is good
+#+BEGIN_SRC sh
+cd /Users/jkitchin/blogofile-jkitchin.github.com
+make build && make deploy
+#+END_SRC
+
 * Using the kitchingroup repository
 
 In your init.el file include this:
 
 #+BEGIN_SRC emacs-lisp
 (add-to-list package-archives
-	     ("kitchingroup" . "https://raw.githubusercontent.com/jkitchin/melpa/kitchingroup/packages/") t)
+	     ("kitchingroup" . "http://kitchingroup.cheme.cmu.edu/elpa/") t)
 #+END_SRC
 
 Then, you should be able to install packages from the repo.
