@@ -1,1 +1,0 @@
-(indy :repo "attichacker/indy" :fetcher github)

@@ -1,4 +1,0 @@
-(pylint
- :repo "logilab/pylint"
- :fetcher bitbucket
- :files ("elisp/pylint.el"))

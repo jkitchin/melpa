@@ -1,2 +1,0 @@
-(wsd-mode
- :fetcher github :repo "josteink/wsd-mode")

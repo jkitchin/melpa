@@ -1,3 +1,0 @@
-(persp-projectile :repo "bbatsov/projectile"
-                  :fetcher github
-                  :files ("persp-projectile.el"))
